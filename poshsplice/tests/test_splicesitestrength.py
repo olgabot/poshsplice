@@ -94,7 +94,7 @@ def splice_site(request):
 
 
 def test_splice_site_sequences(exons, g, splice_site, genome_fasta):
-    from outrigger.splicestrength import splice_site_sequences
+    from poshsplice.splicestrength import splice_site_sequences
 
     seqs = splice_site_sequences(exons, splice_site, genome_fasta, g=g)
 
@@ -176,21 +176,21 @@ TGGGTCAATAAATTTAGAGATTA
 
 @pytest.mark.xfail
 def test_splice_site_sequences_invalid_splice_site(exons, g, genome_fasta):
-    from outrigger.splicestrength import splice_site_sequences
+    from poshsplice.splicestrength import splice_site_sequences
 
     splice_site_sequences(exons, 1, genome_fasta, g=g)
 
 
 @pytest.mark.xfail
 def test_splice_site_sequences_no_genome(exons, genome_fasta):
-    from outrigger.splicestrength import splice_site_sequences
+    from poshsplice.splicestrength import splice_site_sequences
 
     splice_site_sequences(exons, 3, genome_fasta)
 
 
 @pytest.mark.xfail
 def test_check_correct_splice_site(tmpdir):
-    from outrigger.splicestrength import check_correct_splice_site
+    from poshsplice.splicestrength import check_correct_splice_site
 
     s = """>exon4_positive
 GAGAATGGC
@@ -206,7 +206,7 @@ TGGCTTGTA
 
 
 def test_score_splice_fasta(splice_site_combo):
-    from outrigger.splicestrength import score_splice_fasta
+    from poshsplice.splicestrength import score_splice_fasta
 
     fasta, splice_site, true = splice_site_combo
     test = score_splice_fasta(fasta, splice_site)
@@ -215,7 +215,7 @@ def test_score_splice_fasta(splice_site_combo):
 
 @pytest.mark.xfail
 def test_score_splice_fasta_invalid_splice_site(splice_site_combo):
-    from outrigger.splicestrength import score_splice_fasta
+    from poshsplice.splicestrength import score_splice_fasta
 
     fasta, splice_site, true = splice_site_combo
     score_splice_fasta(fasta, 40)
@@ -224,7 +224,7 @@ def test_score_splice_fasta_invalid_splice_site(splice_site_combo):
 @pytest.mark.skipif(not six.PY3, reason='Not Python3')
 @pytest.mark.xfail
 def test_score_splice_fasta_py3(splice_site_combo):
-    from outrigger.splicestrength import score_splice_fasta
+    from poshsplice.splicestrength import score_splice_fasta
 
     fasta, splice_site, true = splice_site_combo
     test = score_splice_fasta(fasta, splice_site)
@@ -247,7 +247,7 @@ def splice_scores(request, splice_site_combo, tmpdir):
 
 
 def test_read_splice_scores(splice_scores):
-    from outrigger.splicestrength import read_splice_scores
+    from poshsplice.splicestrength import read_splice_scores
 
     test = read_splice_scores(splice_scores)
     if not os.path.exists(splice_scores):
@@ -260,7 +260,7 @@ def test_read_splice_scores(splice_scores):
 
 
 def test_score_exons(exons, g, genome_fasta):
-    from outrigger.splicestrength import score_exons
+    from poshsplice.splicestrength import score_exons
 
     test = score_exons(exons, genome_fasta, g=g)
     s = """,splice_site_3p_score,splice_site_3p_seq,splice_site_5p_score,splice_site_5p_seq
