@@ -49,11 +49,11 @@ def splice_site_sequences(exons, splice_site, genome_fasta, genome=None,
     names = [x.name for x in exons]
 
     if splice_site == 5:
-        left = 3
-        right = 6
+        LEFT = 3
+        RIGHT = 6
     elif splice_site == 3:
-        left = 21
-        right = 2
+        LEFT = 21
+        RIGHT = 2
     else:
         raise ValueError('{0} is not a valid splice site. Only 5 and 3 are '
                          'acceptable'.format(splice_site))
@@ -71,9 +71,13 @@ def splice_site_sequences(exons, splice_site, genome_fasta, genome=None,
     seqs = []
     beds = {'-': negative, '+': positive}
     for strand, bed in beds.items():
-        if strand == '-' and six.PY2:
-            right += 1
-            left -= 1
+        six.print_(strand)
+        if strand == '-':
+            right = RIGHT + 1
+            left = LEFT - 1
+        else:
+            right = RIGHT
+            left = LEFT
 
         if splice_site == 5:
             flanked = bed.flank(l=0, r=right, s=True, **kwargs)

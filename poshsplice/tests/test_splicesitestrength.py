@@ -233,7 +233,7 @@ def test_score_splice_fasta_py3(splice_site_combo):
 
 @pytest.fixture(params=['string', 'filename'])
 def splice_scores(request, splice_site_combo, tmpdir):
-    from outrigger.splicestrength import score_splice_fasta
+    from poshsplice.splicestrength import score_splice_fasta
 
     fasta, splice_site, true = splice_site_combo
     scores = score_splice_fasta(fasta, splice_site)
