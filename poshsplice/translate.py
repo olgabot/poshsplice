@@ -1,10 +1,10 @@
 
-
-import itertools
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
 from Bio import SeqIO
-from Bio.Alphabet import generic_dna, generic_protein
+from Bio.Alphabet import generic_dna
+
+import pandas as pd
 
 import numpy as np
 
@@ -115,7 +115,7 @@ for i, (event_id, row) in enumerate(splicing_feature_data.iterrows()):
 
 
         reverse = transcript.strand == '-'
-        cdss = v19db.children(transcript, featuretype='CDS', order_by='start',
+        cdss = db.children(transcript, featuretype='CDS', order_by='start',
                               reverse=reverse)
 
         cdss = filter(lambda cds: any(map(lambda exon: overlap(cds, exon), exons)), cdss)
@@ -124,26 +124,22 @@ for i, (event_id, row) in enumerate(splicing_feature_data.iterrows()):
             cds_str = '@'.join(map(lambda x: x.id, cdss))
 
             if reverse:
-                coding_sequence = Seq(''.join(cds.sequence(hg19_fasta)[::-1] for cds in cdss), generic_dna).complement()
+                coding_sequence = Seq(
+                    ''.join(cds.sequence(hg19_fasta)[::-1]
+                            for cds in cdss), generic_dna).complement()
             else:
-                coding_sequence = Seq(''.join(cds.sequence(hg19_fasta) for cds in cdss), generic_dna)
-#                 print len(coding_sequence)
+                coding_sequence = Seq(''.join(cds.sequence(hg19_fasta)
+                                              for cds in cdss), generic_dna)
             coding_sequence = coding_sequence[int(cdss[0].frame):]
             translated = coding_sequence.translate()
-            seqrecord = SeqRecord(translated, id='{0}|{1}|{2}'.format(event_id, cds_str, isoform))
-#             print '\t\t', translated
+            seqrecord = SeqRecord(translated, id='{0}|{1}|{2}'.format(
+                event_id, cds_str, isoform))
             seqrecords.append(seqrecord)
-#     pprint(isoform_to_cds)
 
 
 with open(translated_fasta, 'w') as f:
     SeqIO.write(seqrecords, f, 'fasta')
 
-import itertools
-from Bio.Seq import Seq
-from Bio.SeqRecord import SeqRecord
-from Bio import SeqIO
-import pandas as pd
 
 translated_df = pd.DataFrame(columns=['isoform1', 'isoform2'])
 
