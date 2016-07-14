@@ -23,8 +23,8 @@ test_requirements = [
 
 setup(
     name='poshsplice',
-    version='0.1.0',
-    description="Python Boilerplate contains all the boilerplate you need to create a Python package.",
+    version='0.1.1',
+    description="Poshsplice makes your splicing events fancy (posh) by annotating them!",
     long_description=readme + '\n\n' + history,
     author="Olga Botvinnik",
     author_email='olga.botvinnik@gmail.com',
