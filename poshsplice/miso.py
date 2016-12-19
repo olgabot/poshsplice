@@ -1,4 +1,4 @@
-def miso_exon_to_gencode_exon(self, exon):
+def miso_exon_to_gencode_exon(exon):
     """Convert a single miso exon to one or more gffutils database exon id
 
     >>> # Skipped exon (SE) or Mutually exclusive exon (MXE) ID
@@ -14,10 +14,10 @@ def miso_exon_to_gencode_exon(self, exon):
     >>> miso_exon_to_gencode_exon('chr1:906259-906386:+')
     'exon:chr1:906259-906386:+'
     """
-    return 'exon:{}:{}-{}:{}'.format(*self.miso_exon_to_coords(exon))
+    return 'exon:{}:{}-{}:{}'.format(*miso_exon_to_coords(exon))
 
 
-def miso_id_to_exon_ids(self, miso_id):
+def miso_id_to_exon_ids(miso_id):
     """Convert a MISO-style alternative event ID to a gffutils exon id of
     all exons in all possible transcripts
 
@@ -39,10 +39,10 @@ def miso_id_to_exon_ids(self, miso_id):
     >>> miso_id_to_exon_ids('chr1:906066-906138:+@chr1:906259-906386:+')
     ['exon:chr1:906066-906138:+', 'exon:chr1:906259-906386:+', 'exon:chr1:906066-906386:+']
     """
-    return map(self.miso_exon_to_gencode_exon, miso_id.split('@'))
+    return map(miso_exon_to_gencode_exon, miso_id.split('@'))
 
 
-def miso_exon_to_coords(self, exon):
+def miso_exon_to_coords(exon):
     """Convert a miso exon to gffutils coordinates
 
     >>> miso_exon_to_coords('chr2:130914824:130914969:-')
