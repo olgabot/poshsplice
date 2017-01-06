@@ -71,7 +71,6 @@ def splice_site_sequences(exons, splice_site, genome_fasta, genome=None,
     seqs = []
     beds = {'-': negative, '+': positive}
     for strand, bed in beds.items():
-        six.print_(strand)
         if strand == '-':
             right = RIGHT + 1
             left = LEFT - 1
@@ -225,6 +224,10 @@ def score_exons(exons, fasta, genome=None, g=None):
         bed = pybedtools.BedTool(exons)
     else:
         bed = exons
+
+    too_short = sum(1 for x in bed if len(x) <= 1)
+    if too_short:
+        raise ValueError("One or more exons in the bed file has length <= 1")
 
     df = pd.DataFrame(index=[x.name for x in bed])
 
